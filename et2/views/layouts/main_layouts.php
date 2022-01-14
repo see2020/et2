@@ -3,7 +3,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="en" />
-	<link rel="stylesheet" type="text/css" href="../et2/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo ET2_PATH_HTML;?>/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo ET2_PATH_HTML;?>/css/main.css" />
 	<title>et2</title>
 </head>
 

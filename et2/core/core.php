@@ -52,4 +52,3 @@ spl_autoload_register(function ($className) {
 
 });
 
-// TODO наверное сюда стоит определить ведение логов

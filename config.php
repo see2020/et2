@@ -10,7 +10,7 @@
 define('DS', DIRECTORY_SEPARATOR); // разделитель
 define('ET2_PATH', realpath(dirname(__FILE__) . DS) . DS); // путь к корневой папке
 define('ET2_PATH_ET2', ET2_PATH.'et2'.DS); // папка с et2, все базовые модели и классы там
-define('ET2_PATH_HTML', '/et2/'); // корневая для html
+define('ET2_PATH_HTML', '/et2/et2'); // корневая для html
 
 
 // для подключения к бд

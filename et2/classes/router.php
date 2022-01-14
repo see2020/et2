@@ -10,6 +10,7 @@ Class Router {
 
 	private $path;
 	private $args = array();
+	private $log = array();
 
 	/**
 	 * Router constructor.
@@ -27,6 +28,8 @@ Class Router {
 		// задаем папку с контроллерами сразу здесь, а не в index.php
 		// расположение контроллеров вроде как не предполагется изменять
 		$this->setPath(ET2_PATH_ET2 . 'controllers');
+		// будем вести логи
+		$this->log = new Log();
 	}
 	/**
 	 * setPath() - задаем путь до папки с контроллерами
@@ -50,13 +53,15 @@ Class Router {
 	 * @param $args
 	 */
 	private function getController(&$file, &$controller, &$action, &$args) {
+		$logText = __METHOD__.' Загрузка ';
 		// TODO нужна проверка того, что прилетело в _GET. + Можно оставить только буквы, цифры и "/","_"
 		$route = (empty($_GET['route'])) ? '' : $_GET['route'];
 		unset($_GET['route']);
 		if (empty($route)) {
 			$route = 'index';
 		}
-
+		$logText .= $route;
+		$this->log->lg($logText);
 		// Получаем части урла
 		$route = trim($route, '/\\');
 		$parts = explode('/', $route);
@@ -104,9 +109,13 @@ Class Router {
 		// Анализируем путь
 		$this->getController($file, $controller, $action, $args);
 
+		$logText = __METHOD__.' Ошибка загрузки ';
+
 		// Проверка существования файла, иначе 404
 		if (!is_readable($file)) {
 			// TODO здесь можно сделать более красивый вывод ошибки
+			$logText .= ' is_readable ';
+			$this->log->lg([$logText,$file, $controller, $action, $args]);
 			die ('404 Not Found');
 		}
 
@@ -118,8 +127,10 @@ Class Router {
 		$controller = new $class();
 
 		// Если экшен не существует - 404
-		if (is_callable(array($controller, $action)) == false) {
+		if (!is_callable(array($controller, $action))) {
 			// TODO здесь можно сделать более красивый вывод ошибки
+			$logText .= ' is_callable ';
+			$this->log->lg([$logText,$file, $controller, $action, $args]);
 			die ('404 Not Found');
 		}
 

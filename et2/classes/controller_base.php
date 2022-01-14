@@ -20,7 +20,8 @@ Abstract Class Controller_Base {
 
 		// шаблоны
 		$this->template = new Template($this->layouts, get_class($this));
-		$this->template->vars('qqqq', '1234');
+		//$this->template->vars('qqqq', '1234'); // если опрделить здесь, будет общая переменная для всех представлений
+		//$this->template->vars('ET2_PATH_HTML', ET2_PATH_HTML);
 
 	}
 

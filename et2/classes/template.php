@@ -12,11 +12,13 @@ Class Template {
 		$this->layouts = $layouts;
 		$arr = explode('_', $controllerName);
 		$this->controller = strtolower($arr[1]);
+		// будем вести логи
+		$this->log = new Log();
 	}
 
 	// установка переменных, для отображения
 	public function vars($varname, $value) {
-		if (isset($this->vars[$varname]) == true) {
+		if (isset($this->vars[$varname])) {
 			trigger_error ('Unable to set var `' . $varname . '`. Already set, and overwrite not allowed.', E_USER_NOTICE);
 			return false;
 		}
@@ -34,15 +36,18 @@ Class Template {
 
 		$pathLayout = $views_path . 'layouts' . DS . $this->layouts . '.php';
 		$contentPage = $views_path . $this->controller . DS . $name . '.php';
-		if (file_exists($pathLayout) == false) {
+		// основной макет
+		if (!file_exists($pathLayout)) {
 			trigger_error ('Layout `' . $this->layouts . '` does not exist.', E_USER_NOTICE);
 			return false;
 		}
-		if (file_exists($contentPage) == false) {
+		// шаблон в макете
+		if (!file_exists($contentPage)) {
 			trigger_error ('Template `' . $name . '` does not exist.', E_USER_NOTICE);
 			return false;
 		}
-		
+
+		// переменная в шаблоне
 		foreach ($this->vars as $key => $value) {
 			$$key = $value;
 		}
